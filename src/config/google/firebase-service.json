@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "scientific-reef-360605",
+  "private_key_id": "85b10275b907e75dbd8d306721775c6d1e8249de",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCwPlzXX8/kTjA0\np6A3bIMq+DCbVFwzjyOHdb6bI7EbtipJ/rdXt1Zmadi1QqhSh047+2jPuTLrsdmv\nvWN7IHc00u+oVCCwBramN23gfR9PogZqlCseHrjun6MooTn0J5duDWmOoWY/Z6q7\nv55gQHQkJ/trV9H3Kt/CFBDoIuhnMtraLCn5KLWaWMvz4FBNkNHoJMIQWHoRBwop\n48+3fQsdeGF/bu1bhVulvYZnw5oNB5hWomJxDl0r4ip9cuFJSvdhUfXyL+yTvfxm\nq749Mkrt7Smvbg5cSRMbpGhmcjy4soRX7HqDb2831gh5467XlAGEMtl/a0B6lxN2\nn8bZYCcnAgMBAAECggEAS3kZRv33x/wXtqTF/pYQgbkxD4OLzGSSwXKRwlwBfy1+\nZJuYpg6UCF1xeQXnkRfyT8t08eeMP9S0tQZ0cIjRo6RlDv+f0+G8G+gGvKi4XOC0\nwLVc1ZQwe7ePJloMuFqwBWfm+TZy09owCiCf0PYpBka86xX7i04n7jOrnc09Gtu9\nW9cr7nA4U1CZxSlgQKZUxkX70c7lRw9qrlRdh+GHX9PKC0YKkJTaU9oggFPrMBVG\n5MJnnIjHMPFLYjMnNHMrTCvGwnfyG42jiB2gLbarh947k+myWKgULNP0cPWNAxcv\n10VpwkihZEuJvEoau2bV53AnFck960bru/uwOzvVaQKBgQDX6OYJ+2EJnh3Nfb7N\nz8RRuU+LVJ2Jr2QwuQLQwXiNUytjzhgAPQ0DGxvPyHO43ij8JhlXdWiHFMWlfiSK\naD2psFL+ELtWgDhWG6NZ37A8RvnK1UTgyVEEhyS4H9553Qv5iVhqiiZfflVkJhl5\nvHzEQWfBUhGWI+leh3BClttGRQKBgQDQ9/bjEjhj/fkuJtpgBTRykWBo6eEhdNlj\n6Q5/BJ7toL//kjvdGtOlRptvNrEOrELW4M8haezljdgKQrODbIThxQkfELCvCanx\nqJ6rSILk6mFbDmXxveRIXeUsiDLaSSePVhQhas0ZyVj2Wd3Kn7JVHJKuYmrOxmSr\nW4BxNugUewKBgQCH1m9kOFOEyYXWkxZIRj8ta3kwH7w9s6tFPCEZVZ+SypCx6igP\nflmBarzErUihNqRyf0XSUHvDAL6YsBQtQAgLinOshLpYYbMP+bN8B8/JHJ5rjmIX\nSpE+WAgyD1rZMMkn5dFKtkAONF1k9NNyU7PrhXrRleCapV1dq7hlLKQoQQKBgEGa\nx5DMZJXH41YA7qgcmjWpvGnTm1FknOdIALwR2E9kG0MCRvcIeA+4Vg4ZTob7v9Q0\nKfMkjTIYUQ4PmMoW5LT4pf9xvvaFAyySMpY1opp5luz+XTUC18t8ZvmPHN/4/Yl7\njcBcBl4lH1/gIMh/UH52BProfP3DvVEq3e0tPrlHAoGABZbe/y8UbfO4LCPMjLAm\nIol/G8qrYJTNCt6/EhZR39zdpwlZZntz9Npqd3nkI8z0PZgB8Kz4/QoRwl+qey3Q\nyvGzC7HodGSaQC7dNOVszalXew1BgJkigoy/gsgMdO5Vtz1zbFwBrecsiMEdcZFi\nN3Wwsl3+8gyEogRhJiv+2RI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-bul7s@scientific-reef-360605.iam.gserviceaccount.com",
+  "client_id": "116944892358076689546",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-bul7s%40scientific-reef-360605.iam.gserviceaccount.com"
+}

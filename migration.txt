@@ -1,0 +1,7 @@
+migrate run command:
+npm run migration
+npx sequelize-cli db:migrate 
+npx sequelize-cli db:migrate --to order.js
+
+migrate undo command:
+npx sequelize-cli db:migrate:undo

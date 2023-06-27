@@ -1,0 +1,94 @@
+paths:
+  /promotion/contact-us/enquiry:
+    post:
+        tags:
+          - PromotionContactUs
+        summary: Add new Enquiry
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add Enquiry
+            required: true
+            schema:
+              "$ref": "#/definitions/addEnquiry"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - PromotionContactUs
+        summary: PromotionContactUs Enquiry Listing 
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["firstName", "lastName","email","phoneNumber", "message","subject", "status","createdAt"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: search
+            type: string
+            description: Search for name,email,phoneNumber,message,subject
+            required: false
+        responses:
+          '200':
+            description: OK
+  /promotion/contact-us/enquiry/{id}:
+    delete:
+        tags:
+          - PromotionContactUs
+        summary: Delete Enquiry
+        produces:
+          - application/json 
+        parameters:
+          - in: path
+            name: id
+            required: true
+            type: integer
+        responses:
+          '200':
+            description: OK
+      
+definitions:
+  addEnquiry:
+    type: object
+    properties:
+      firstName:
+        type: string
+        required: true
+      lastName:
+        type: string
+        required: true
+      phoneNumber:
+        type: string
+        required: true
+      email:
+        type: string
+        required: true
+      subject:
+        type: string
+        required: true
+      message:
+        type: string
+        required: true
+      companyUrl:
+        type: string
+        required: true
+      countryCode:
+        type: string
+        required: true

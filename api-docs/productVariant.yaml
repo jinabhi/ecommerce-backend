@@ -1,0 +1,148 @@
+paths:
+  /admin/product-variant:
+    post:
+        tags:
+          - Product variant
+        summary: Add new Product Variant
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add ProductVariant
+            required: true
+            schema:
+              "$ref": "#/definitions/addProductVariant"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Product variant
+        summary: Get all ProductVariant
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum:
+              - activeProductVariant
+              - notDeletedProductVariant
+            required: false
+          - in: query
+            name: fromDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: toDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name", "status", 'totalProduct', 'attributeNames',  "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/product-variant/{id}:
+    get:
+        tags:
+          - Product variant
+        summary: Product Variant details for Seller and Admin
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+    put:
+        tags:
+          - Product variant
+        summary: Product Variant update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update ProductVariant
+            required: true
+            schema:
+              "$ref": "#/definitions/addProductVariant"
+        responses:
+          '200':
+            description: OK
+    delete:
+        tags:
+          - Product variant
+        summary: Product Variant delete
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+definitions:
+  addProductVariant:
+    type: object
+    properties:
+      name:
+        type: string
+        required: true  
+      attributeNames:
+          type: array
+          items: 
+           type: string 
+          required: true
+   
+  
+  productVariantStatusUpdate:
+    type: object
+    properties:
+      status:
+        type: string
+        enum:
+          - "active"
+          - "inactive"
+        required: true
+

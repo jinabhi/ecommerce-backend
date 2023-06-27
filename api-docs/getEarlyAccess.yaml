@@ -1,0 +1,83 @@
+paths:
+  /promotion/early-access:
+    post:
+      tags:
+        - Promotion get early access
+      summary: Add get early access Contact
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Add Contact
+          required: true
+          schema:
+            "$ref": "#/definitions/addContact"
+      responses:
+        "200":
+          description: OK
+    get:
+      tags:
+        - Promotion get early access
+      summary: Promotion get early access Contact us Listing
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: limit
+          type: integer
+          required: false
+        - in: query
+          name: offset
+          type: integer
+          required: false
+        - in: query
+          name: sortBy
+          enum:
+            [
+              "contactNumber",
+              "status",
+              "contactNumberCountryCode",
+              "createdAt",
+              "description",
+            ]
+          type: string
+          required: false
+        - in: query
+          name: sortType
+          enum: ["ASC", "DESC"]
+          type: string
+          required: false
+        - in: query
+          name: search
+          type: string
+          description: Search for contactNumber,contactNumberCountryCode
+          required: false
+      responses:
+        "200":
+          description: OK
+  /promotion/early-access/{id}:
+    delete:
+      tags:
+        - Promotion get early access
+      summary: Delete get early access
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: OK
+
+definitions:
+  addContact:
+    type: object
+    properties:
+      contactNumberCountryCode:
+        type: string
+        required: true
+      contactNumber:
+        type: string
+        required: true

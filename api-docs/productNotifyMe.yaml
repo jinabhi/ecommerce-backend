@@ -1,0 +1,18 @@
+paths:
+  /customer/product-notify/{id}:
+    post:
+        tags:
+          - Product Notify Me 
+        summary: Add Notify Me for customer 
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK

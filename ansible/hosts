@@ -1,0 +1,2 @@
+[NodeDevServer]
+85.239.230.211 ansible_user=developer ansible_ssh_extra_args="-o StrictHostKeyChecking=no"

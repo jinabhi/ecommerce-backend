@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "441101585841",
+    "project_id": "scientific-reef-360605",
+    "storage_bucket": "scientific-reef-360605.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441101585841:android:04a757f0833293ebab4190",
+        "android_client_info": {
+          "package_name": "com.morluxury"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "441101585841-mrch6tmfkjnu9uaem39gbok8pqkqfa8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.morluxury",
+            "certificate_hash": "81b046581f64ede35add51cd512a986601a96189"
+          }
+        },
+        {
+          "client_id": "441101585841-c3nsiqeqaput3h2oa5fl7jl5v81ldauc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKxl3YzHtGzid_GUHA55tDAWGP8MY-4BQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "441101585841-c3nsiqeqaput3h2oa5fl7jl5v81ldauc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "441101585841-7kk1i6g8otqrvee1i8i95gckkp0sua6r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.morluxury",
+                "app_store_id": "1645865886"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,137 @@
+paths:
+  /earning:
+    get:
+        tags:
+          - Earning
+        summary: Get all earnings for Admin
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: [ "orderId" , "createdOn" , "deliveredOn"  ,  "customerName",  "totalAmount","myEarning" , "sellerShare" , "status", 'AmountWithTax' , "totalShippingCharges", "totalTax"]
+            type: string
+            required: false
+          - in: query
+            name: status
+            type: string
+            enum: [All ,  pending, paid]
+          - in: query
+            name: year
+            type: string
+            description: 'YYYY Format allow'
+            required: false
+          - in: query
+            name: fromDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: toDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC"]
+            type: string
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /earning/graph:
+    get:
+        tags:
+          - Earning
+        summary: Get all earnings for Admin and Seller
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: status
+            type: string
+            enum: [all ,  pending, paid]
+            required: false
+          - in: query
+            name: year
+            type: string
+            description: 'YYYY Format allow'
+            required: false
+          - in: query
+            name: fromDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: toDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+        responses:
+          '200':
+            description: OK
+  /earning/status/{orderId}:
+    patch:
+        tags:
+          - Earning
+        summary: Change order status
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+        - in: path
+          name: orderId
+          type: integer
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            "$ref": "#/definitions/earnStatusUpdate"
+        responses:
+          '200':
+            description: OK
+  /earning/{id}:
+    get:
+        tags:
+          - Earning
+        summary: earning  Details for admin
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+        responses:
+          '200':
+            description: OK   
+definitions:
+  earnStatusUpdate:
+    type: object
+    properties:
+      status:
+        type: string
+        enum:
+          - "paid"
+          - 'pending'
+        required: true 

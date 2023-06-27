@@ -1,0 +1,172 @@
+paths:
+  /product-complaint:
+    post:
+        tags:
+          - Product complaint
+        summary: Add new Product complaint
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add ProductVariant
+            required: true
+            schema:
+              "$ref": "#/definitions/addProductComplaint"
+        responses:
+          '200':
+            description: OK
+  /admin/product-complaint/credit:
+    post:
+        tags:
+          - Product complaint
+        summary: Add Credit Point
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add credit
+            required: true
+            schema:
+              "$ref": "#/definitions/addCredit"
+        responses:
+          '200':
+            description: OK
+  /admin/product-complaint:
+    get:
+        tags:
+          - Product complaint
+        summary: Get all Product complaint
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: search
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum:
+              - activeProductComplaint
+              - notDeletedProductComplaint
+            required: false
+          - in: query
+            name: fromDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: toDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["userName", "status", 'productName', 'price', 'quantity', 'description', "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC"]
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/product-complaint/{id}:
+    get:
+        tags:
+          - Product complaint
+        summary: Product complaint details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /admin/product-complaint/status/{id}:
+    put:
+        tags:
+          - Product complaint
+        summary: Product complaint status update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/productComplaintStatusUpdate"
+        responses:
+          '200':
+            description: OK
+definitions:
+  addProductComplaint:
+    type: object
+    properties:
+      description:
+        type: string
+        required: true
+      orderId:
+        type: integer  
+        required: true
+      productId:
+        type: integer
+        required: true      
+      damageProductImages:
+        type: array
+        items:
+          type: object
+          properties:
+            basePath:
+              type: string
+              required: false
+  productComplaintStatusUpdate:
+    type: object
+    properties:
+      productComplaintStatus:
+        type: string
+        enum:
+          - "accepted"
+          - "rejected"
+        required: true
+  addCredit:
+    type: object
+    properties:
+      productComplainId:
+        type: integer
+        required: true
+      userId:
+        type: integer
+        required: true
+      point:
+        type: integer
+        required: true
+
+

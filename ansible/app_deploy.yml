@@ -1,0 +1,97 @@
+---
+- hosts: NodeDevServer
+  become: yes
+  become_user: developer
+  tasks:
+  - name: Environment variables
+    debug: msg="repository {{ git_repo }}, dir {{ project_path }}, branch {{ git_branch }}" 
+
+  - name: "Check package facts"
+    package_facts:
+      manager: "auto"
+  
+  - name: clone and pull git repository    
+    git:
+      repo: "{{ git_repo }}"
+      dest: "{{ project_path }}/{{ project_name }}"
+      version: "{{ git_branch }}"
+      key_file: "{{ key_file }}"
+      accept_hostkey: yes
+      clone: yes
+      force: yes
+      update: yes
+  
+  - name: Install Nodejs
+    apt: 
+      name: nodejs
+      state: present
+    when: "'nodejs' not in ansible_facts.packages"
+
+  - name: Install NPM
+    npm:
+      path: "{{ project_path }}/{{ project_name }}"
+      state: present
+  
+  - name: npm build
+    command: npm run build
+    args:
+      chdir: "{{ project_path }}/{{ project_name }}"
+    ignore_errors: yes
+  
+  - name: Install PM2
+    npm:
+      name: pm2
+      global: yes
+  
+  - name: Check env file exists.
+    stat:
+      path: "{{ project_path }}/{{ project_name }}/.env"
+    register: file
+  - debug:
+      msg: "env file exists..."
+    when: file.stat.exists
+  - debug:
+      msg: "env file not found"
+    when: file.stat.exists == False
+
+  - name: copy .env.example file to .env
+    copy: 
+      src: "{{ project_path }}/{{ project_name }}/.env.example" 
+      dest: "{{ project_path }}/{{ project_name }}/.env"
+      remote_src: yes
+    when: file.stat.exists == False
+
+  - name: copy input environment variables in to .env file 
+    copy: 
+      content: "{{ envfile_content }}" 
+      dest: "{{ project_path }}/{{ project_name }}/.env"
+      remote_src: yes
+    when: envfile_option == 'yes' and envfile_content != 'null'
+
+  - name: Check list of Node.js apps running
+    become: yes
+    shell: pm2 list | grep -wE '(^|\s){{ project_name }}($|\s)' | awk '{print $4}'  
+    register: pm2_list
+  - debug: 
+      msg: "{{ pm2_list }}" 
+  
+  - name: Reload application
+    become: yes
+    command: "pm2 restart {{ project_name }}"
+    register: pm2_restart_result
+    when: pm2_list.stdout != ""
+    ignore_errors: yes
+    args:
+      chdir: "{{ project_path }}/{{ project_name }}"
+  - debug: 
+      msg: "{{ pm2_restart_result }}"
+    
+  - name: Start application
+    become: yes
+    command: "pm2 start --name {{ project_name }} npm -- start"
+    register: pm2_start_result
+    when: pm2_list.stdout == ""
+    args:
+      chdir: "{{ project_path }}/{{ project_name }}"
+  - debug: 
+      msg: "{{ pm2_start_result }}"

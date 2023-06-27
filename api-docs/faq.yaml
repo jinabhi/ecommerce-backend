@@ -1,0 +1,129 @@
+paths:
+  /admin/faq:
+    post:
+        tags:
+          - Faq
+        summary: Add new FAQ
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add ContactUs
+            required: true
+            schema:
+              "$ref": "#/definitions/FaqSchema"
+        responses:
+          '200':
+            description: OK
+  /faq:
+    get:
+        tags:
+          - Faq
+        summary: Get all FAQ List
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["question", "type", "id"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [activeFaq, notDeletedFaq]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: type
+            description: Pass seller module in seller and customer module side customer and promotional module side promotional 
+            enum: ['all', 'seller', 'customer', 'promotional']
+            required: true
+          - in: query
+            name: search
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/faq/{id}:          
+    put:
+        tags:
+          - Faq
+        summary: FAQ update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/FaqSchema"
+        responses:
+          '200':
+            description: OK
+    delete:
+        tags:
+          - Faq
+        summary: FAQ delete
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /faq/{id}:
+    get:
+        tags:
+          - Faq
+        summary: FAQ details
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+
+definitions:
+  FaqSchema:
+    type: object
+    properties:
+      question:
+         type: string
+         required: true
+      answer:
+         type: string
+         required: true
+      type:
+         type: string
+         enum: [seller, customer, promotional]
+         required: true

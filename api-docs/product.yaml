@@ -1,0 +1,841 @@
+paths:
+  /seller/product:
+    post:
+        tags:
+          - Product
+        summary: Add new product
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add product
+            required: true
+            schema:
+              "$ref": "#/definitions/addProduct"
+        responses:
+          '200':
+            description: OK
+  /customer/wishlist-to-cart/{id}:
+    put:
+        tags:
+          - Product Wishlist
+        summary: Wishlist to cart 
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /admin/product-approve/{id}:
+    put:
+        tags:
+          - Product
+        summary: Product request status update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+        responses:
+          '200':
+            description: OK
+
+  /customer/global-search:
+    get:
+        tags:
+          - Home screen
+        summary: Get all Global listing for Category, Sub-Category, brand and Product
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: search
+            type: string
+            description: Search for category, subCategory, product and brand
+            required: false
+        responses:
+          '200':
+            description: OK
+       
+  /product:
+    get:
+        tags:
+          - Product
+        summary: Get all Product for Customer, Seller and Admin
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: categoryId
+            type: integer
+            required: false
+          - in: query
+            name: childCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: subCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: brandId  
+            type: array
+            items: 
+              type: integer 
+            required: false    
+          - in: query
+            name: productStatus
+            type: string
+            enum: ['all', 'lowInventory', 'outOfStock', 'inStock']
+            required: false
+          - in: query
+            name: status
+            type: string
+            enum: [ 'all', 'active', "inactive"]
+            required: false
+          - in: query
+            name: type
+            enum: ['inventory']
+            description: 'Only use for seller inventory list'
+            type: string
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["productName", "status", 'subCategoryName', 'childCategoryName', "categoryName", 'productStatus', 'brandName', "createdAt","variantName", "updatedAt", "productImage"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [activeProduct, notDeletedProduct]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC"]
+            type: string
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /customer/product:
+    get:
+        tags:
+          - Product
+        summary: Get all Product for Customer
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: categoryId
+            type: integer
+            required: false
+          - in: query
+            name: childCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: brandId  
+            type: array
+            items: 
+              type: integer 
+            required: false
+          - in: query
+            name: fromPrice
+            description: 
+            type: integer
+            required: false
+          - in: query
+            name: toPrice
+            type: integer
+            required: false
+          - in: query
+            name: customerId
+            description: Only customer login user id use
+            type: integer
+            required: false
+          - in: query
+            name: subCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: productStatus
+            type: string
+            enum: ['all', 'lowInventory', 'outOfStock', 'inStock']
+            required: false
+          - in: query
+            name: customerLiked
+            type: integer
+            enum: [1]
+            required: false
+          - in: query
+            name: status
+            type: string
+            enum: [ 'all', 'active', "inactive"]
+            required: false
+          - in: query
+            name: sortBy
+            enum: ['new', 'price',  'popular', 'customerReview', "productName", "status", 'subCategoryName', 'childCategoryName', "categoryName", 'productStatus', 'brandName', "createdAt","variantName", "updatedAt", "productImage"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [activeProduct, notDeletedProduct]
+          - in: query
+            name: sortType
+            description: >
+              Sort order:
+               * `asc` - Ascending, from A to Z
+               * `desc` - Descending, from Z to A
+            enum: ["ASC", "DESC"]
+            type: string
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+          - in: headers
+            name: currencyCode
+            type: string            
+            enum: ["INR", "USD"]
+            description: 'Pass currency code in headers'
+            required: false
+        responses:
+          '200':
+            description: OK
+  /product/discounted-product:
+    get:
+        tags:
+          - Product
+        summary: Get all Product not available discount
+        produces:
+          - application/json
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false          
+          - in: query
+            name: scope
+            type: string
+            enum: [activeProduct, notDeletedProduct]
+          - in: query
+            name: name
+            type: string
+            required: false
+          - in: query
+            name: type
+            enum: ['productDiscount']
+            description: 'Only use for discounted product details'
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/product-request/reject/{id}:
+    put:
+        tags:
+          - Product
+        summary: Product request reject update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Request Reject
+            required: true
+            schema:
+              "$ref": "#/definitions/productRequestReject"
+        responses:
+          '200':
+            description: OK
+            
+  /admin/product-request:
+    get:
+        tags:
+          - Product
+        summary: Get all Product request for Customer, Seller and Admin
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: productStatus
+            type: string
+            enum: ['all', 'lowInventory', 'outOfStock', 'inStock']
+            required: false
+          - in: query
+            name: status
+            type: string
+            enum: [ 'all', 'active', "inactive"]
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["productName", "status", "categoryName", 'sellerName', 'storeName', 'productStatus', 'brandName', "createdAt","variantName", "updatedAt", "productImage"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [activeProduct, notDeletedProduct]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC"]
+            type: string
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+
+  /customer-liked:
+    get:
+        tags:
+          - Product
+        summary: Customer also Liked
+        produces:
+          - application/json
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: query
+            name: customerId
+            type: integer
+            required: false
+        responses:
+          '200':
+            description: OK
+
+  /product/{id}:
+    get:
+        tags:
+          - Product
+        summary: Product detail for admin, seller and customer
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /customer/product/{id}:
+    get:
+        tags:
+          - Product
+        summary: Product detail for customer
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            oneOf:
+              - type: string
+              - type: integer
+            required: true
+          - in: query
+            name: customerId
+            description: Only customer login user id use
+            type: integer
+            required: false
+          - in: headers
+            name: currencyCode
+            type: string            
+            enum: ["INR", "USD"]
+            description: 'Pass currency code in headers'
+            required: false
+        responses:
+          '200':
+            description: OK
+  /seller/product/{id}:
+    put:
+        tags:
+          - Product
+        summary: Product update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update Product
+            required: true
+            schema:
+              "$ref": "#/definitions/addProduct"
+        responses:
+          '200':
+            description: OK 
+  /customer/inspired-view/product:
+    get:
+        tags:
+          - Home screen
+        summary: Get all inspired view Product for Customer
+        produces:
+          - application/json
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: categoryId
+            type: integer
+            required: false
+          - in: query
+            name: childCategoryId
+            type: integer
+            required: false
+          # - in: query
+          #   name: customerId
+          #   description: Only customer login user id use
+          #   type: integer
+          #   required: false
+          - in: query
+            name: subCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: productStatus
+            type: string
+            enum: ['all', 'lowInventory', 'outOfStock', 'inStock']
+            required: false
+          - in: query
+            name: status
+            type: string
+            enum: [ 'all', 'active', "inactive"]
+            required: false
+          - in: query
+            name: sortBy
+            enum: ['new', 'price','inspired', 'popular', 'customerReview', "productName", "status", 'subCategoryName', 'childCategoryName', "categoryName", 'productStatus', 'brandName', "createdAt","variantName", "updatedAt", "productImage"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [activeProduct, notDeletedProduct]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC"]
+            type: string
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+          - in: query
+            name: brandId  
+            type: array
+            items: 
+              type: integer 
+            required: false
+          - in: query
+            name: fromPrice
+            description: 
+            type: integer
+            required: false
+          - in: query
+            name: toPrice
+            type: integer
+            required: false
+        responses:
+          '200':
+            description: OK
+  /customer/home-screen:
+    get:
+        tags:
+          - Home screen
+        summary: Get all list home screen
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json       
+        responses:
+          '200':
+            description: OK
+ 
+  /product/review-rating:
+    post:
+        tags:
+          - Product
+        summary: Add product review rating
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json 
+        parameters:
+          - in: body
+            name: ReviewRating
+            type: string
+            required: true
+            schema:
+              "$ref": "#/definitions/addReviewRating"
+        responses:
+          '200':
+            description: OK
+  # /seller/review-rating:
+  #   post:
+  #       tags:
+  #         - Product
+  #       summary: Add Seller review rating
+  #       security:
+  #         - BearerAuth: []
+  #       produces:
+  #         - application/json 
+  #       parameters:
+  #         - in: body
+  #           name: ReviewRating
+  #           type: string
+  #           required: true
+  #           schema:
+  #             allOf:
+  #               - $ref: "#/definitions/addReviewRating"
+  #               - $ref: "#/definitions/addSellerRating"
+  #       responses:
+  #         '200':
+  #           description: OK
+  # /product/review-rating:
+    get:
+        tags:
+          - Product
+        summary: Get all Review Rating
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: productId
+            description: "Particular product get review rating"
+            type: integer
+            required: false
+          - in: query
+            name: sellerId
+            description: "Particular seller get review rating in admin side"
+            type: integer
+            required: false
+          - in: query
+            name: customerId
+            description: "Particular customer get review rating in admin side"
+            type: integer
+            required: false
+        responses:
+          '200':
+            description: OK     
+  /seller/product/status/{id}:
+    put:
+        tags:
+          - Product 
+        summary: Product status update by seller
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/productStatusUpdate"
+        responses:
+          '200':
+            description: OK
+  /product/cart-to-wishlist/{id}:
+    post:
+        tags:
+          - Product Wishlist
+        summary: Add cart to wishlist product
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+            schema:
+              "$ref": "#/definitions/addProductWishlist"
+        responses:
+          '200':
+            description: OK
+  /product/wishlist:
+    post:
+        tags:
+          - Product Wishlist
+        summary: Add wishlist product
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add product
+            required: true
+            schema:
+              "$ref": "#/definitions/addProductWishlist"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Product Wishlist
+        summary: wishlist product List
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: name
+            required: false
+            type: string
+        responses:
+          '200':
+            description: OK
+  /product/wishlist/{id}:
+    delete:
+        tags:
+          - Product Wishlist
+        summary: Remove wishlist product
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json 
+        parameters:
+          - in: path
+            name: id
+            required: true
+            type: integer
+        responses:
+          '200':
+            description: OK
+  /product/upload:
+    post:
+        tags:
+          - Product Upload
+        summary: Upload product
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json 
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/upload"
+        responses:
+          '200':
+            description: OK
+        externalDocs:
+          description: Download sample file upload for media upload.
+          url: http:/public/sample/product/product_sample.csv
+  /product/sample-file:
+    get:
+        tags:
+          - Product Upload
+        summary: Product Upload Sample file
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK
+definitions:
+  addProduct:
+    type: object
+    properties:
+      productName:
+        type: string
+        required: true
+      price:
+         type: integer
+         required: true      
+      brandId:
+         type: integer
+         required: true
+      categoryId:
+         type: integer
+         required: true
+      childCategoryId:
+         type: integer
+         required: true
+      subCategoryId:
+         type: integer
+         required: true
+      specification:
+         type: string
+         required: true
+      overview:
+         type: string
+         required: true
+      weight:
+          type: integer
+          required: true
+      unit:
+        type: string
+        enum:
+          - "gm"
+        required: true
+      productVariant:
+              type: array
+              items:
+                type: object
+                properties:
+                  productVariantId:
+                    type: integer
+                    required: false
+                  productVariantAttributeId:
+                    type: integer
+                    required: false
+      productImages:
+              type: array
+              items:
+                type: object
+                properties:
+                  basePath:
+                    type: string
+                    required: false
+                minItems: 1
+                maxItems: 6
+                uniqueItems: true
+    required:           
+     - id
+  productRequestReject:
+    type: object
+    properties:
+      rejectMessage:
+        type: string
+        required: true
+  addProductWishlist:
+    type: object
+    properties:
+      productId:
+        type: integer
+        required: true
+  addReviewRating:
+    type: object   
+    properties:   
+      review:
+        type: string
+        required: true
+      rating:
+        oneOf:
+          - type: string          
+          - type: integer
+            nullable: true
+      productId:
+        type: integer
+        required: true
+      orderId:
+        type: integer
+        required: true
+  addSellerRating:
+    type: object   
+    properties:   
+      sellerId:
+        type: integer
+        required: true
+  productStatusUpdate:
+    type: object
+    properties:
+      status:
+        type: string
+        enum:
+          - "active"
+          - "inactive"
+        required: true
+  wishlist:
+    type: object
+    properties:
+      wishlistId:
+        type: integer
+  upload:
+    type: object
+    properties:
+      basePath:
+        type: string
+        required: true
+  

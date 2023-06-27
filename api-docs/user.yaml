@@ -1,0 +1,853 @@
+paths:
+  /admin/staff:
+    post:
+        tags:
+          - Staff
+        summary: Add new staff
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Add staff
+            required: true
+            schema:
+              allOf:
+                - $ref: "#/definitions/staff"
+                - $ref: "#/definitions/addStaff"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Staff
+        summary: Get all staff
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: scope
+            enum: ['activeUser', 'notDeletedUser']
+            type: string
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name","address","phoneNumber","status"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: search
+            type: string
+            required: false
+          - in: query
+            name: status
+            enum: ['all', 'profileInComplete', 'pendingApproval', 'active', 'inactive']
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/staff/{id}:          
+    put:
+        tags:
+          - Staff
+        summary: staff update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update staff
+            required: true
+            schema:
+              "$ref": "#/definitions/staff"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Staff
+        summary: staff details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /admin/staff/password/{id}:
+    put:
+        tags:
+          - Staff
+        summary: change password
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name:  Add staff
+            required: true
+            schema:
+              "$ref": "#/definitions/changeStaffPassword"
+        responses:
+          '200':
+            description: OK
+  /seller:
+    post:
+        tags:
+          - Seller
+        summary: Seller signup and default otp 4444
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Add Seller
+            required: true
+            schema:
+              allOf:
+                - $ref: "#/definitions/addUser"
+                - $ref: "#/definitions/addSeller"
+        responses:
+          '200':
+            description: OK
+  /guest-user:
+    post:
+        tags:
+          - Account
+        summary: Guest User
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  device Data
+            required: true
+            schema:
+              "$ref": "#/definitions/deviceData"
+        responses:
+          '200':
+            description: OK
+ 
+  
+  /seller/bank:
+    post:
+        tags:
+          - Seller
+        summary: Add bank details
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Add bank details
+            required: true
+            schema:
+              "$ref": "#/definitions/addBankDetail"
+        responses:
+          '200':
+            description: OK
+  /seller/otp-verify:
+    post:
+        tags:
+          - Seller
+        summary: Otp verify
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Otp verify
+            required: true
+            schema:
+              "$ref": "#/definitions/otpVerify"
+        responses:
+          '200':
+            description: OK
+  /customer:
+    post:
+        tags:
+          - Customer
+        summary: Customer sign-up and default otp 4444
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Add Customer
+            required: true
+            schema:
+              "$ref": "#/definitions/addUser"
+        responses:
+          '200':
+            description: OK
+    put:
+        tags:
+          - Customer
+        summary: Customer update details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  update Customer
+            required: true
+            schema:
+              "$ref": "#/definitions/updateCustomer"
+        responses:
+          '200':
+            description: OK
+  /customer/social-media-login:
+    post:
+        tags:
+          - Customer
+        summary: Customer Sign-up/Login via Social Media
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Social Login
+            required: true
+            schema:
+              "$ref": "#/definitions/addCustomerViaSocialLogin"
+        responses:
+          '200':
+            description: OK
+  /customer/otp-verify:
+    post:
+        tags:
+          - Customer
+        summary: Otp verify for customer signup
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Otp verify
+            required: true
+            schema:
+              allOf:
+                - $ref: "#/definitions/otpVerify"
+                - $ref: "#/definitions/otpVerifyWithLogin"
+        responses:
+          '200':
+            description: OK
+  /customer/mobile-number/otp-verify:
+    post:
+        tags:
+          - Customer
+        summary: Otp verify for change mobile number
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Otp verify
+            required: true
+            schema:
+              "$ref": "#/definitions/changeNumberOtpVerify"
+        responses:
+          '200':
+            description: OK
+  /seller/mobile-number/otp-verify:
+    post:
+        tags:
+          - Seller
+        summary: Otp verify for change mobile number
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Otp verify
+            required: true
+            schema:
+              "$ref": "#/definitions/changeNumberOtpVerify"
+        responses:
+          '200':
+            description: OK
+  /customer/mobile-number:
+    put:
+        tags:
+          - Customer
+        summary: Update mobile number
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Update mobile number
+            required: true
+            schema:
+              "$ref": "#/definitions/updateMobileNumber"
+        responses:
+          '200':
+            description: OK
+  
+  /resend-otp:
+    post:
+        tags:
+          - Account
+        summary: Resend Otp (user and seller) and default otp 4444
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Resend Otp 
+            required: true
+            schema:
+              "$ref": "#/definitions/resendOtp"
+        responses:
+          '200':
+            description: OK
+  /change-number/otp:
+    post:
+        tags:
+          - Customer
+          - Seller
+        summary: Update mobile number send otp and resend otp and default otp 4444
+        produces:
+          - application/json
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: body
+            name:  Resend Otp 
+            required: true
+            schema:
+              "$ref": "#/definitions/resendOtp"
+        responses:
+          '200':
+            description: OK
+  
+  /admin/seller:
+    get:
+        tags:
+          - Seller
+        summary: Get all seller
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: stateId
+            type: string
+            required: false
+          - in: query
+            name: cityId
+            type: string
+            required: false
+          - in: query
+            name: countryId
+            type: string
+            required: false
+          - in: query
+            name: scope
+            enum: ['activeUser', 'notDeletedUser']
+            type: string
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name", "storName", "brandName", 'city', 'state',  'country', "lastLoginDate", 'createdAt', "address", "phoneNumber", "status"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: search
+            type: string
+            required: false
+          - in: query
+            name: registeredFrom
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: registeredTo
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: status
+            type: string
+            enum: ['all', 'profileInComplete', 'pendingApproval', 'active', 'inactive']
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/seller/status/{id}:          
+    put:
+        tags:
+          - Seller
+        summary: Seller update status
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update status
+            required: true
+            schema:
+              "$ref": "#/definitions/updateStatus"
+        responses:
+          '200':
+            description: OK
+  /seller/{id}: 
+    get:
+        tags:
+          - Seller
+        summary: Seller details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK   
+  /seller/bank/{id}:   
+    put:
+        tags:
+          - Seller
+        summary: Seller update bank details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update bank details
+            required: true
+            schema:
+              "$ref": "#/definitions/updateBankDetail"
+        responses:
+          '200':
+            description: OK
+  /admin/customer:
+    get:
+        tags:
+          - Customer
+        summary: Get all customer
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: scope
+            enum: ['activeUser', 'notDeletedUser']
+            type: string
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name","lastLoginDate", 'createdAt',  "address", "phoneNumber","status"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: search
+            type: string
+            required: false
+          - in: query
+            name: registeredFrom
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: registeredTo
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: status
+            type: string
+            enum: ['all', 'profileInComplete', 'pendingApproval', 'active', 'inactive']
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/customer/status/{id}:          
+    put:
+        tags:
+          - Customer
+        summary: Customer update status
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update status
+            required: true
+            schema:
+              "$ref": "#/definitions/updateStatus"
+        responses:
+          '200':
+            description: OK
+  /admin/staff/status/{id}:          
+    put:
+        tags:
+          - Staff
+        summary: Staff update status
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update status
+            required: true
+            schema:
+              "$ref": "#/definitions/updateStatus"
+        responses:
+          '200':
+            description: OK
+  /admin/customer/{id}: 
+    get:
+        tags:
+          - Customer
+        summary: Customer details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /admin/seller-request/rejection/{id}:
+      put:
+        tags:
+          - Seller
+        summary: Seller request reject
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: reject message
+            required: true
+            schema:
+              "$ref": "#/definitions/requestReject"
+        responses:
+          '200':
+            description: OK
+  /payment-details:
+    get:
+        tags:
+          - Customer
+        summary: Get stripe details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK
+
+definitions:
+  deviceData:
+    type: object
+    properties:
+      deviceId:
+        type: string
+        required: true  
+  addStaff:
+    type: object
+    properties:
+      password:
+         type: string
+         required: true
+  staff:
+    type: object
+    properties:
+      firstName:
+         type: string
+         required: true
+      lastName:
+         type: string
+         required: true
+      phoneNumber:
+         type: string
+         required: true
+      profilePicture:
+         type: string
+         required: true
+      email:
+         type: string
+         required: true
+      phoneNumberCountryCode:
+         type: string
+         required: true
+      address:
+         type: string
+         required: true
+  changeStaffPassword:
+    type: object
+    properties:
+      password:
+         type: string
+         required: true
+      confirmPassword:
+         type: string
+         required: true  
+  
+  addBankDetail:
+    type: object
+    properties:
+      routingNumber:
+         type: string
+         required: true
+      accountHolderName:
+         type: string
+         required: true
+      accountNumber:
+         type: string
+         required: true
+      userId:
+        type: integer
+        required: true
+  updateBankDetail:
+    type: object
+    properties:
+      routingNumber:
+         type: string
+         required: true
+      accountHolderName:
+         type: string
+         required: true
+      accountNumber:
+         type: string
+         required: true
+  otpVerify:
+    type: object
+    properties:
+      phoneNumber:
+         type: string
+         required: true
+      otp:
+         type: string
+         required: true
+  addSeller:
+    type: object
+    properties:
+      confirmPassword:
+         type: string
+         required: true
+  addUser:
+    type: object
+    properties:
+      firstName:
+         type: string
+         required: true
+      lastName:
+         type: string
+         required: true
+      phoneNumberCountryCode:
+         type: string
+         required: true
+      phoneNumber:
+         type: string
+         required: true
+      email:
+         type: string
+         format: email
+         required: true
+      password:
+         type: string
+         required: true
+  addCustomerViaSocialLogin:
+    type: object
+    properties:
+      firstName:
+         type: string
+         required: false
+      lastName:
+         type: string
+         required: false
+      phoneNumberCountryCode:
+         type: string
+         required: false
+      phoneNumber:
+         type: string
+         required: false
+      email:
+         type: string
+         required: false
+      socialId:
+         type: string
+         required: true
+      socialType:
+         type: string
+         required: true
+      socialToken: 
+         type: string
+         required: false
+      nonce: 
+         type: string
+         required: false
+      deviceType:
+        type: string
+        enum: 
+          - 'android'
+          - 'ios'  
+        required: true
+      firebaseToken:
+        type: string
+        required: false
+      appVersion:
+        type: string
+        required: true
+    
+  updateStatus: 
+    type: object
+    properties:
+      status:
+         type: string
+         enum: [active, 'inactive']
+         required: true
+  resendOtp: 
+    type: object
+    properties:
+      phoneNumber:
+         type: string
+         required: true
+  updateCustomer:
+    type: object
+    properties:      
+      firstName:
+         type: string
+         required: true
+      lastName:
+         type: string
+         required: true
+      profilePicture:
+         type: string
+         required: true
+      phoneNumber:
+         type: string
+         required: true
+      email: 
+        type: string
+        required: false
+      phoneNumberCountryCode:
+         type: string
+         required: true
+  updateMobileNumber:
+    type: object
+    properties:
+      phoneNumber:
+         type: string
+         required: true
+  changeNumberOtpVerify:
+    type: object
+    properties:
+      otp:
+         type: string
+         required: true
+  requestReject:
+    type: object
+    properties:
+      message:
+         type: string
+         required: true
+  otpVerifyWithLogin:
+    type: object
+    properties:
+      deviceType:
+        type: string
+        enum: 
+          - 'android'
+          - 'ios'  
+        required: true
+      firebaseToken:
+        type: string
+        required: true
+      appVersion:
+        type: string
+        required: true
+
+         

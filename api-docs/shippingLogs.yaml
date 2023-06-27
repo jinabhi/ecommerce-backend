@@ -1,0 +1,141 @@
+paths:
+  /seller/inventory/shipping-log:
+    post:
+        tags:
+          - Shipping Logs
+        summary: Create a new shipment for product from its inventory
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        description: >
+          Auto isShippingType all field required.
+          Manual isShippingType productId, shippingQuantity required
+        parameters:
+          - in: body
+            name:  Add brand
+            required: true
+            schema:
+            # oneOf:
+            #   - $ref: '#/definitions/addManualShippingLog'
+              "$ref": '#/definitions/addShippingLog'
+        responses:
+          '200':
+            description: OK
+      
+  /admin/shipping-log/status/{id}:
+    put:
+        tags:
+          - Shipping Logs
+        summary: Shipping Logs status delivered
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            description: 'Shipping log id used in path id'
+            required: true
+          - in: body
+            name:  Add brand
+            required: true
+            schema:
+              "$ref": "#/definitions/statusShippingLog"
+        responses:
+          '200':
+            description: OK
+
+  /inventory/shipping-log:
+    get:
+        tags:
+          - Shipping Logs
+        summary: Get all Shipping Logs for a particular product's inventory
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: productId
+            description: 'Product shopping log'
+            type: integer
+            required: false
+          - in: query
+            name: sellerId
+            type: integer
+            description: 'Seller shopping log'
+            required: false
+          - in: query
+            name: search
+            description: 'Search for product name, status, brand name, category, price'
+            type: string
+            required: false
+          - in: query
+            name: sortBy
+            enum: ['productName', 'price', "shippingQuantity", 'brandName', 'categoryName', 'subCategoryName',  'variantName'  , "shippingStatus", "shippingCarrier", "status", "trackingId", "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [notDeletedShippingLog, activeShippingLog]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+definitions:
+  addManualShippingLog:
+    type: object
+    properties:
+      productId:
+        type: integer
+        required: true
+      shippingQuantity:
+        type: integer
+        required: true
+      isShippingType:
+        type: boolean
+        required: true
+  addShippingLog:
+    type: object
+    properties:
+      productId:
+        type: integer
+        required: true
+      shippingQuantity:
+        type: integer
+        required: true
+      shippingCarrier:
+        type: string
+        required: false
+        nullable: true
+      isShippingType:
+        type: boolean
+        required: true
+      trackingId:
+        type: string
+        required: false
+        nullable: true
+  statusShippingLog:
+    type: object
+    properties:
+      quantity:
+        type: integer
+    required:
+        - quantity
+      
+

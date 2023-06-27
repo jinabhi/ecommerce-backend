@@ -1,0 +1,32 @@
+/node_modules
+.env
+aws.pem
+.eslintrc.js
+package-lock.json
+credentials.txt
+crypto.js
+query.txt
+/public/uploads
+.
+yarn.lock
+# logs
+/src/logs/*.log
+/src/logs
+/build
+/.vscode
+
+##Docker
+*.swp
+
+#NODE
+data/
+mailhog.auth/
+.env.docker*
+
+#Nginx
+/docker/nginx/conf.d/node-app.conf
+
+
+# Ignore Exceptions
+!.env.docker.example
+!.env.example

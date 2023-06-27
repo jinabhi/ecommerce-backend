@@ -1,0 +1,108 @@
+paths:
+  /contact-us:
+    post:
+        tags:
+          - Contact us
+        summary: Add new ContactUs
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add ContactUs
+            required: true
+            schema:
+              "$ref": "#/definitions/addContactUs"
+        responses:
+          '200':
+            description: OK
+  /admin/contact-us:
+    get:
+        tags:
+          - Contact us
+        summary: Get all ContactUs
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: search
+            type: string
+            required: false
+          - in: query
+            name: userType
+            type: string
+            enum: ['all', 'customer', 'seller']
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum:
+              - activeContactUs
+              - notDeletedContactUs
+            required: false
+          - in: query
+            name: fromDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: toDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["fullName", "status", 'userType', 'reason', 'description', "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/contact-us/{id}:    
+    delete:
+        tags:
+          - Contact us
+        summary: ContactUs delete
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+definitions:
+  addContactUs:
+    type: object
+    properties:
+      reason:
+        type: string
+        required: true
+      description:
+        type: string
+        required: true
+      userType:
+        type: string
+        enum: ['seller', 'customer', 'guest']
+        required: true
+

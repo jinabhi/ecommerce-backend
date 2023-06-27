@@ -1,0 +1,391 @@
+paths:
+  # /signup:
+  #   post:
+  #       tags:
+  #         - Account
+  #       summary: Customer signup
+  #       # security:
+  #       #   - BearerAuth: []
+  #       produces:
+  #         - application/json
+  #       parameters:
+  #         - in: body
+  #           name: body
+  #           required: true
+  #           schema:
+  #             "$ref": "#/definitions/signup"
+  #       responses:
+  #         '200':
+  #           description: OK
+  /logout:              
+    get:                
+      tags:               
+        - Account           
+      summary: logout
+      security:
+        - BearerAuth: []
+      produces:
+        - application/json      
+      responses:          
+        200:
+          description: An object with user 
+  /account/me:              
+    get:                
+      tags:               
+        - Account           
+      summary: My account information (admin, seller and customer)
+      produces:
+       - application/json
+      security:
+       - BearerAuth: []      
+      responses:          
+        200:
+          description: An object with user        
+  /login:              
+    post:                
+      tags:               
+        - Account           
+      summary: Customer Login (email and mobile number common field email)
+      produces:
+      - application/json
+      parameters:         
+      - in: body          
+        name: login     
+        description:
+        required: false
+        schema:          
+          $ref: '#/definitions/accountLogin' 
+      responses:          
+        200:
+          description: An object with user
+  /admin/login:
+    post:
+        tags:
+          - Account
+        summary: Admin and staff login
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/login"
+        responses:
+          '200':
+            description: OK
+  /seller/login:
+    post:
+        tags:
+          - Account
+        summary: Seller login (email and mobile number)
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/sellerLogin"
+        responses:
+          '200':
+            description: OK
+  /forget-password:
+    post:
+        tags:
+          - Account
+        summary: Seller, customer and admin forgets password (email and mobile number common field email)
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/forgetPassword"
+        responses:
+          '200':
+            description: OK
+  /reset-password:
+    post:
+        tags:
+          - Account
+        summary: user reset password
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/resetPassword"
+        responses:
+          '200':
+            description: OK
+  /detail-check:
+    post:
+        tags:
+          - Account
+        security:
+          - BearerAuth: []
+        summary: Check Email and Phone Number
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/detail-check"
+        responses:
+          '200':
+            description: OK          
+  /password:
+    post:
+        tags:
+          - Account
+        summary: Seller, admin and customer change password
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/changePassword"
+        responses:
+          '200':
+            description: OK
+  /profile:
+    put:
+        tags:
+          - Account
+        summary: Update profile admin and seller
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/changeName"
+        responses:
+          '200':
+            description: OK
+  /profile-details:
+    put:
+        tags:
+          - Account
+        summary: Update profile
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/updateProfileDetail"
+        responses:
+          '200':
+            description: OK
+  /traffic-source:
+    get:
+        tags:
+          - Account
+        summary: Get all Traffic source
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+        responses:
+          '200':
+            description: OK
+     
+definitions:
+  detail-check:
+    type: object
+    properties:
+      email:
+        type: string
+        required: true
+      phoneNumber:
+        type: string
+        required: true
+  signup:
+    type: object
+    properties:
+      firstName:
+        type: string
+        required: true
+      lastName:
+        type: string
+        required: true
+      # deviceType:
+      #   type: string
+      #   enum: 
+      #     - 'android'
+      #     - 'ios'  
+      #   required: true
+      # firebaseToken:
+      #   type: string
+      #   required: true
+      phoneNumber:
+        type: string
+        required: true
+      email:
+        type: string
+        required: true      
+      password:
+        type: string
+        required: true
+      confirmPassword:
+        type: string
+        required: true
+  login:
+    type: object
+    properties:
+      email: 
+        type: string
+        required: true
+      password: 
+        type: string
+        required: true
+      userRole:
+        type: string
+        required: true
+        enum: ['seller', 'staff']
+  sellerLogin:
+    type: object
+    properties:
+      emailMobileNumber: 
+        type: string
+        required: true
+      password: 
+        type: string
+        required: true
+  forgetPassword:
+    type: object
+    properties:
+      email: 
+        type: string
+        required: true
+  resetPassword:
+    type: object
+    properties:
+      token: 
+        type: string
+        required: true
+      newPassword: 
+        type: string
+        required: true
+      confirmPassword: 
+        type: string
+        required: true
+      location: 
+        type: string
+        required: true
+  changePassword:
+    type: object
+    properties:
+      currentPassword:
+        type: string
+        required: true
+      newPassword:
+        type: string
+        required: true
+      confirmPassword:
+        type: string
+        required: true
+      location: 
+        type: string
+        required: true
+  changeName:
+    type: object
+    properties:
+      firstName:
+        type: string
+        required: true
+      lastName:
+        type: string
+        required: true
+      profilePicture:
+        type: string
+        required: false
+      phoneNumber:
+        type: string
+        required: false
+      email:
+        type: string
+        format: email
+        required: false
+  updateProfileDetail:
+    type: object
+    properties:
+      firstName:
+        type: string
+        required: true
+      lastName:
+        type: string
+        required: true
+      profilePicture:
+        type: string
+        required: false
+      gender:
+        type: string
+        required: false
+      dateOfBirth:
+        type: string
+        required: false
+      phoneNumber:
+        type: string
+        required: false
+      city:
+        type: string
+        required: true
+      state:
+        type: string
+        required: true
+      country:
+        type: string
+        required: true
+      address:
+        type: string
+        required: true
+  accountLogin:
+     type: object
+     properties:
+      email:
+        type: string
+        required: true
+      password:
+        type: string
+        required: true
+      deviceType:
+        type: string
+        enum: 
+          - 'android'
+          - 'ios'  
+        required: true
+      firebaseToken:
+        type: string
+        required: true
+      appVersion:
+        type: string
+        required: true
+       
+

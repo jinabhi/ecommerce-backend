@@ -1,0 +1,90 @@
+paths:
+  /notification:
+    get:
+        tags:
+          - Notification
+        summary: Get all notification in seller, customer, admin, staff
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["message", "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [notDeletedNotification, activeNotification]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: message
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /notification-count:
+    get:
+        tags:
+          - Notification
+        summary: Get product request, user pending approval and notification unread count in seller, customer, admin, staff
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK
+  /notification/unread-mark:
+    get:
+        tags:
+          - Notification
+        summary: Unread mark read in seller, customer, admin, staff
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK
+
+  /customer/notification-setting:
+    put:
+        tags:
+          - Notification
+        summary: Update notification setting for customer
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add push notification message
+            required: true
+            schema:
+              "$ref": "#/definitions/addPushNotification"
+        responses:
+          '200':
+            description: OK
+definitions:
+  addPushNotification:
+    type: object
+    properties:
+      isPushNotification:
+        type: boolean
+        required: true

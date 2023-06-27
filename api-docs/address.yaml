@@ -1,0 +1,207 @@
+paths:
+  /country:
+    get:
+        tags:
+          - Address
+        summary: Country Listing
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK
+  /state:
+    get:
+        tags:
+          - Address
+        summary: State Listing
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: countryId
+            type: integer
+            required: false          
+        responses:
+          '200':
+            description: OK
+  /city:
+    get:
+        tags:
+          - Address
+        summary: City Listing
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: stateId
+            type: integer
+            required: false
+          - in: query
+            name: countryId
+            type: integer
+            required: false
+        responses:
+          '200':
+            description: OK   
+
+  /customer/address:
+    post:
+        tags:
+          - Address
+        summary: Add address 
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add Address
+            required: true
+            schema:
+              "$ref": "#/definitions/addAddress"
+        responses:
+          '200':
+            description: OK   
+    get:
+        tags:
+          - Address
+        summary: Get all Address
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK 
+  /customer/address/is-default/{id}:
+    get:
+        tags:
+          - Address
+        summary: Customer address is default set
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /customer/address/{id}:
+    put:
+        tags:
+          - Address
+        summary: Address status update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/addAddress"
+        responses:
+          '200':
+            description: OK
+    delete:
+        tags:
+          - Address
+        summary: Remove Address 
+        produces:
+          - application/json 
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Address
+        summary: Address detail 
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+            
+definitions:
+  addAddress:
+    type: object
+    properties:
+      fullName:
+        type: string
+        required: true
+      landmark:
+        type: string
+        required: true
+      zipCode:
+        type: string
+        required: true
+      city:
+        type: string
+        required: false
+      state:
+        type: string
+        required: false
+      contactNumberCountryCode:
+        type: string
+        required: true
+      phoneNumber:
+        type: string
+        required: true
+      address:
+        type: string
+        required: true
+      latitude:
+        oneOf:
+          - type: string          
+          - type: integer
+            nullable: true
+      longitude:
+        oneOf:
+          - type: string
+          - type: integer
+            nullable: true
+      addressType:
+        type: string
+        enum:
+          - "home"
+          - "office"
+          - "other"
+        required: true
+      
+  
+      
+  
+
+

@@ -1,0 +1,117 @@
+paths:
+  /customer/payment-card:
+    post:
+        tags:
+          - Payment Cards
+        summary: Add a new payment card of Customer
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Add Card
+            required: true
+            schema:
+              "$ref": "#/definitions/addPaymentCard"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Payment Cards
+        summary: Get all Saved Card List of Customer
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [activePaymentCard, notDeletedPaymentCard]
+        responses:
+          '200':
+            description: OK
+  /customer/payment-card/{id}:
+    delete:
+        tags:
+          - Payment Cards
+        summary: Delete particular Payment Card
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Payment Cards
+        summary: Particular payment Card details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /customer/default-card/{id}:
+    put:
+        tags:
+          - Payment Cards
+        summary: Make default particular Payment Card
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: string
+            required: true
+        responses:
+          '200':
+            description: OK
+
+definitions:
+  addPaymentCard:
+    type: object
+    properties:
+      cardHolderName:
+        type: string
+        required: true
+      cardNumber:
+        type: integer
+        required: true
+      expMonth:
+        type: integer
+        required: true
+      expYear:
+        type: integer
+        required: true
+      cvc:
+        type: integer
+        required: true
+      cardTag:
+        type: string
+        enum: [personal, business, other]
+        required: true

@@ -1,0 +1,326 @@
+paths:
+  /order:
+    post:
+        tags:
+          - Order
+        summary: Place order
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: header
+            name: currencyCode
+            type: string
+            required: true
+          - in: body
+            name: Add Order
+            required: true
+            schema:
+              "$ref": "#/definitions/placeOrder"
+        responses:
+          '200':
+            description: OK
+  /orders:
+    get:
+        tags:
+          - Order
+        summary: Get all orders for Customer, Seller and Admin
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: customerId
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: [ "orderId" ,"receivedOn", "deliveredOn" , "canceledOn" ,  "customerName", "productName", 'quantity', "totalAmount","deliveryAddress", 'AmountWithTax' , "totalShippingCharges", "totalTax"]
+            type: string
+            required: false
+          - in: query
+            name: status
+            type: string
+            enum: [active ,  received, packed , pickedUp , completed , past, canceled]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC"]
+            type: string
+            required: false
+          - in: query
+            name: fromDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: toDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /order/status/{id}:
+    patch:
+        tags:
+          - Order
+        summary: Change order status
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            "$ref": "#/definitions/orderStatusUpdate"
+        responses:
+          '200':
+            description: OK
+  /order/{id}:
+    get:
+        tags:
+          - Order
+        summary: order Details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+        responses:
+          '200':
+            description: OK
+  /sellerOrder/{id}:
+    get:
+        tags:
+          - Order
+        summary: order Details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+        responses:
+          '200':
+            description: OK    
+  /best-selling/products:
+    get:
+        tags:
+          - Order
+          - Home screen
+        summary: Bestselling products
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: fromPrice
+            description: 
+            type: integer
+            required: false
+          - in: query
+            name: toPrice
+            type: integer
+            required: false          
+          - in: query
+            name: brandId  
+            type: array
+            items: 
+              type: integer 
+            required: false    
+          - in: query
+            name: sortBy
+            enum: ["productName", "status", 'productStatus', 'brandName', "createdAt", "updatedAt", 'new', 'price',  'popular', 'customerReview']
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC"]
+            type: string
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK 
+  /paytm-token:
+    get:
+        tags:
+          - Order
+        summary: Paytm token Verify
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+        - in: query
+          name: orderId
+          required: true
+        - in: query
+          name: amount
+          required: true
+        responses:
+          '200':
+            description: OK 
+  /paypal-order:
+    post:
+        tags:
+          - Order
+        summary: paypal order create
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+        - in: body
+          name: Paypal order 
+          required: true
+          schema:
+            "$ref": "#/definitions/paypalOrder"
+        responses:
+          '200':
+            description: OK
+  /paypal-token:
+    get:
+        tags:
+          - Order
+        summary: paypal token 
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK 
+
+definitions:
+  orderStatusUpdate:
+    type: object
+    properties:
+      status:
+        type: string
+        enum:
+          - "packed"
+          - "pickedUp"
+          - "canceled"
+        required: true
+      trackingLink:
+        type: string
+        required: false
+  paypalOrder:
+    type: object
+    properties:
+        amount:
+              type: number
+              required: true
+  placeOrder:
+    type: object
+    properties:
+        order:
+              type: array
+              items:
+                type: object
+                properties:
+                  productId:
+                    type: integer
+                    required: true
+                  quantity:
+                    type: integer
+                    required: true 
+                  productAmount:
+                    type: number
+                    required: true,
+                  countryCurrencyAmount:
+                    type: number
+                    required: true
+                    Description: 'product amount with shipping'
+                  shippingCharges:
+                    type: number
+                    required: true
+                    Description: 'shipping charge in INR'
+        orderNumber:
+                type: string
+                required: false
+        addressId:
+                type: integer
+                required: true 
+        cardId:
+                type: string
+                required: false
+        paymentType:
+                type: number
+                required: false
+        orderTax:
+                type: number
+                required: false
+        creditPoints:
+                type: integer
+                required: false
+        creditPointsAmount:
+                type: number
+                required: false
+        orderTotal:
+                type: number
+                required: true
+                Description: 'Total amount for this order'
+        orderTotalUsd:
+                type: number
+                required: true
+                Description: 'Total amount in USD for this order'
+        paymentTransactionId:
+                type: string
+                required: false
+        paymentTransactionStatus:
+                type: string
+                required: false
+        nonce:
+                type: string
+                required: false
+        payerId:
+                type: string
+                required: false
+        paymentResponse:
+                type: string
+                required: false
+        
+                  
+                   
+     

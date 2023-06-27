@@ -1,0 +1,170 @@
+paths:
+  /admin/sub-category:
+    post:
+        tags:
+          - Sub category
+        summary: Add new sub category
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Add sub category
+            required: true
+            schema:
+              "$ref": "#/definitions/addSubCategory"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Sub category
+        summary: Get all sub category for admin and seller
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: categoryId
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name", "status", "categoryName",'totalProduct', "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [notDeletedSubCategory,activeSubCategory,]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/sub-category/{id}:          
+    put:
+        tags:
+          - Sub category
+        summary: Sub category update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update sub category
+            required: true
+            schema:
+              "$ref": "#/definitions/addSubCategory"
+        responses:
+          '200':
+            description: OK
+    delete:
+        tags:
+          - Sub category
+        summary: Sub category delete
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Sub category
+        summary: Sub Category details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /sub-category:
+    get:
+        tags:
+          - Sub category
+        summary: Get all sub category
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: categoryId
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name", "status", "categoryName",'totalProduct', "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [notDeletedSubCategory,activeSubCategory,]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+
+definitions:
+  addSubCategory:
+    type: object
+    properties:
+      subCategoryImage:
+         type: string
+         required: true
+      name:
+         type: string
+         required: true
+      categoryId:
+         type: integer
+         required: true

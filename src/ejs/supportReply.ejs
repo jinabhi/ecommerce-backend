@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title></title>        
+        <style type="text/css"> 
+            @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+            table         {mso-table-lspace:0pt;mso-table-rspace:0pt;}
+            td,th	  {border-collapse:collapse;}
+            td a img	  {text-decoration:none;border:none;}
+        </style>
+    </head>
+    <body style="margin: 0;">
+        <table align="center" cellspacing="0" cellpadding="0" width="600" style="table-layout:fixed; margin:0 auto; border-top: 8px solid #009688; border-collapse:collapse; font-family: 'Lato', sans-serif; font-weight: 400; font-size:15px; background-color: #f2f4f5; color: #817a83;">
+            <tbody>
+            <tr bgcolor="#170E29">
+                <td valign="middle" align="center" style="padding:20px 10px">
+                    <a href="javascript:void(0);">
+                        <img vspace="0" hspace="0" border="0" align="center" src="<%= data.logo %>" height="55"  alt="logo" />
+                    </a>                   
+                </td>             
+            </tr> 
+            <tr>
+                <td valign="top" style="padding:40px 55px 20px; text-align: center;">                    
+                    <h2 style="margin: 0; font-weight: 400; font-size: 30px;color: #000000;"> Support reply</h2> 
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" style="padding:0 55px;">    
+                    <table  cellspacing="0" cellpadding="0" style="table-layout:fixed; width: 100%;">
+                        <tr>
+                            <td style="padding: 35px 25px; background-color: #ffffff;">
+                                <p style="margin:0 0 10px; font-weight: 700; color: #000000;">Hey, <%= data.userName %>!</p>     
+                                <p style="margin:0 0 20px;line-height:22px;">You have received a reply from Mor luxuary support for your message:</p>
+                                <table  cellspacing="0" cellpadding="0" style="table-layout:fixed; width: 100%; margin:0 0 30px;">
+                                    <tr>
+                                        <td style="padding:10px 0;font-weight: 700; color: #000000; border-bottom: 1px solid  #cccccc;">
+                                            Message:
+                                        </td>
+                                        <td style="padding:10px 0; border-bottom: 1px solid  #cccccc;">
+                                            <%= data.message %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 0;font-weight: 700; color: #000000; border-bottom: 1px solid  #cccccc;">
+                                            Reply:
+                                        </td>
+                                        <td style="padding:10px 0; border-bottom: 1px solid  #cccccc;">
+                                            <%= data.response %> 
+                                        </td>
+                                    </tr>                                                                   
+                                                                  
+                                </table>
+                                <p style="margin:0 0 5px;">Thanks & Regards</p>  
+                                <a href="javascript:void(0);" style="margin:0; font-weight: 700; color: #000000;text-decoration:none;"> Mor luxuary </a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="padding:15px 55px 55px; font-size: 12px;">  
+                    This is a system generated message so please don't reply to this email.
+                </td>            
+            </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
+
+ 

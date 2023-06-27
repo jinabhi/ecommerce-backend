@@ -1,0 +1,222 @@
+paths:
+  /seller/brand:
+    post:
+        tags:
+          - Seller
+        summary: Add new brand and shop detail
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Add brand
+            required: true
+            schema:
+              allOf:
+                - $ref: "#/definitions/addBrand"
+                - $ref: "#/definitions/updateBrand"
+        responses:
+          '200':
+            description: OK
+  /admin/brand:
+    get:
+        tags:
+          - Brand
+        summary: Get all Brand
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name", "status","totalProduct", "storeName", "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [notDeletedBrand,activeBrand]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /brand:          
+    get:
+        tags:
+          - Seller
+        summary: Guest Brand listing
+        produces:
+          - application/json
+        security:
+          - BearerAuth: []
+        responses:
+          '200':
+            description: OK
+  /seller/brand/{id}:          
+    get:
+        tags:
+          - Seller
+        summary: Seller Brand details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            description: 'Brand id pass in path'
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+    put:
+        tags:
+          - Seller
+        summary: Update seller brand and shop details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name:  Add brand
+            required: true
+            schema:
+              "$ref": "#/definitions/addBrand"
+        responses:
+          '200':
+            description: OK  
+    delete:
+        tags:
+          - Brand
+        summary: Brand delete
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK 
+
+  /admin/brand-commission/{id}:
+    put:
+        tags:
+          - Brand
+        summary: Brand commission update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name:  Add Commission
+            required: true
+            schema:
+              "$ref": "#/definitions/addCommission"
+        responses:
+          '200':
+            description: OK 
+  /shop-by/brand:
+    get:
+        tags:
+           - Home screen
+        summary: Shop by Brand details for customer
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: query
+            name: childCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: subCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: categoryId
+            type: integer
+            required: false
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK
+  
+definitions:
+  addBrand:
+    type: object
+    properties:
+      name:
+        type: string
+        required: true
+      brandImage:
+        type: string
+        required: true
+      storeName:
+        type: string
+        required: true
+      storeLicenseDocumentImage:
+        type: string
+        required: true
+      storeContactNumber:
+        type: string
+        required: true
+      storeContactNumberCountryCode:
+        type: string
+        required: true
+      address:
+        type: string
+        required: true
+      countryId:
+        type: integer
+        required: true
+      stateId:
+        type: integer
+        required: true
+      cityId:
+        type: integer
+        required: true     
+      
+  updateBrand:
+    type: object
+    properties:
+      userId:
+        type: integer
+        required: true
+  addCommission:
+    type: object
+    properties:    
+      commission:
+        type: string
+        required: true
+      

@@ -1,0 +1,133 @@
+paths:
+  /admin/banner:
+    post:
+        tags:
+          - Banner
+        summary: Add new banner
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name:  Add banner
+            required: true
+            schema:
+              "$ref": "#/definitions/addBanner"
+        responses:
+          '200':
+            description: OK
+  /banner:
+    get:
+        tags:
+          - Banner
+          - Home screen
+        summary: Get all Banner for admin,customer,seller
+        produces:
+          - application/json
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["status","description", "title", "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: name
+            description: Search for description and title
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+
+  /admin/banner/{id}:          
+    delete:
+        tags:
+          - Banner
+        summary: Banner delete
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /banner/{id}:
+    get:
+        tags:
+          - Banner
+        summary: Banner detail for customer, seller, admin
+        produces:
+          - application/json
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK 
+  /admin/banner-status/{id}:
+    put:
+        tags:
+          - Banner
+        summary: Banner status update for admin
+        produces:
+          - application/json        
+        security:
+          - BearerAuth: []
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update banner status
+            required: true
+            schema:
+              "$ref": "#/definitions/updateBannerStatus"
+        responses:
+          '200':
+            description: OK 
+definitions:
+  addBanner:
+    type: object
+    properties:
+      bannerImage:
+        type: string
+        required: true
+      description:
+        type: string
+        required: true
+      title:
+        type: string
+        required: true
+  updateBannerStatus:
+    type: object
+    properties:
+      status:
+        type: string
+        required: true
+      

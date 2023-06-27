@@ -1,0 +1,108 @@
+paths:
+  /admin/how-it-works:
+    post:
+        tags:
+          - How it works
+        summary: Add how it works
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add how it works
+            required: true
+            schema:
+              "$ref": "#/definitions/addHowItWorks"
+        responses:
+          '200':
+            description: OK
+  /how-it-works:
+    get:
+        tags:
+          - How it works
+        summary: Get all how it works for seller,admin,customer
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+        responses:
+          '200':
+            description: OK  
+
+  /admin/how-it-works/{id}:          
+    put:
+        tags:
+          - How it works
+        summary: How it works update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update Product
+            required: true
+            schema:
+              "$ref": "#/definitions/addHowItWorks"
+        responses:
+          '200':
+            description: OK  
+    delete:
+        tags:
+          - How it works
+        summary: How it works delete
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /how-it-works/{id}:          
+    get:
+        tags:
+          -  How it works
+        summary:  How it works details for seller,admin,customer
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+   
+
+definitions:
+  addHowItWorks:
+    type: object
+    properties:
+      title:
+         type: string
+         required: true
+      description:
+        type: string
+        required: true
+      cmsId:
+        type: integer
+        required: true
+  

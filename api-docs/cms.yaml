@@ -1,0 +1,104 @@
+paths:
+  /cms:
+    get:
+        tags:
+          - CMS
+        summary: Get all CMS Page List in customer, admin, seller, staff
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: type
+            type: string
+            required: false
+            enum: ['terms_conditions', 'privacy_policy', 'about_us', 'cancellation_policy', 'returns_refund_policy', 'faq',  'how_it_works','accessibility']
+          - in: query
+            name: sortBy
+            enum: ["pageName", "status", "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [activeCms, notDeletedCms]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/cms/{id}:          
+    put:
+        tags:
+          - CMS
+        summary: CMS Page update in customer, admin, seller, staff
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: pageName
+            required: true
+            schema:
+              "$ref": "#/definitions/cmsSchema"
+        responses:
+          '200':
+            description: OK
+    delete:
+        tags:
+          - CMS
+        summary: CMS Page delete 
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /cms/{id}:
+    get:
+        tags:
+          - CMS
+        summary: CMS Page details in customer, admin, seller, staff
+        # security:
+        #   - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+
+
+
+definitions:
+  cmsSchema:
+    type: object
+    properties:
+      description:
+         type: string
+         required: true

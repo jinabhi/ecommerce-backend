@@ -1,0 +1,95 @@
+version: "3.3"
+services:
+  #Node Service
+  node:
+    container_name: ${PROJECT_NAME}-node
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+      args:
+        - NODE_VERSION=${NODE_VERSION:-latest}
+        - DIRECTORY_PATH=$DIRECTORY_PATH
+    ports:
+      - ${NODE_PORT}:3000
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+      #Enable or disable this as per requirement 
+
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - nodeapp-network
+  #Mysql_DB
+  mysqldb:
+    container_name: ${PROJECT_NAME}-mysql
+    build:
+      context: ./docker/mysql/
+      args:
+        - MYSQL_VERSION=${MYSQL_VERSION:-latest}
+    restart: unless-stopped
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    healthcheck:
+      test: "mysql $$MYSQL_DATABASE -u$$MYSQL_USER -p$$MYSQL_PASSWORD -e 'SHOW DATABASES;use $MYSQL_DATABASE;show tables;'"
+      interval: 1m
+      timeout: 5m
+      retries: 5
+
+
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - sqldbdata:/var/lib/mysql
+    networks:
+      - nodeapp-network
+
+  #Mailhog_Service
+  mailhog:
+    image: mailhog/mailhog
+    container_name: ${PROJECT_NAME}-mailhog
+    restart: unless-stopped
+    volumes:
+      - ./mailhog.auth:/mailhog.auth:ro
+      - ./data:/data:rw
+    ports:
+      - ${MAILHOG_PORT}:1025 #127.0.0.1:1025:1025
+      - ${MAILHOG_DASHBOARD_PORT}:8025
+    networks:
+      - nodeapp-network
+
+  #Nginx Service
+  nginx_server:
+    image: nginx:alpine
+    container_name: ${PROJECT_NAME}-nginx
+    restart: unless-stopped
+    ports:
+      - ${NGINX_PORT}:80
+    environment:
+      NODE_PORT: "${NODE_PORT}"
+    command: /bin/sh -c "envsubst '$$NODE_PORT' < /etc/nginx/conf.d/node-app.template > /etc/nginx/conf.d/node-app.conf && nginx -g 'daemon off;'"
+    depends_on:
+      - node
+    volumes:
+      - ./:$DIRECTORY_PATH
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - nodeapp-network
+
+#Docker Volumes
+volumes:
+  sqldbdata:
+    driver: local
+
+#Docker Networks
+networks:
+  nodeapp-network:
+    driver: bridge

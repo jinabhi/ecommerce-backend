@@ -1,0 +1,115 @@
+paths:
+  /customer/add-cart:
+    post:
+        tags:
+          - Cart
+        summary: Add product to Cart
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add Cart
+            required: true
+            schema:
+              "$ref": "#/definitions/addCart"
+        responses:
+          '200':
+            description: OK
+  /customer/update-cart/{id}:
+    put:
+        tags:
+          - Cart
+        summary: Update Cart Product
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Add Cart
+            required: true
+            schema:
+              "$ref": "#/definitions/updateCart"
+        responses:
+          '200':
+            description: OK
+  /customer/guest-cart-update:
+    put:
+        tags:
+          - Cart
+        summary: Update Guest Cart 
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add Cart
+            required: true
+            schema:
+              "$ref": "#/definitions/updateGuestCart"
+        responses:
+          '200':
+            description: OK
+  /customer/remove-product/{id}:
+    put:
+        tags:
+          - Cart
+        summary: Remove Cart Product
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /customer/cart:
+    get:
+        tags:
+          - Cart
+        summary: Get Cart listing
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK
+definitions:
+  addCart:
+    type: object
+    properties:
+        product:
+              type: array
+              items:
+                type: object
+                properties:
+                  productId:
+                    type: integer
+                    required: true
+                  quantity:
+                    type: integer
+                    required: true
+  updateCart:
+    type: object
+    properties:
+      quantity:
+        type: integer
+        required: true
+  updateGuestCart:
+    type: object
+    properties:
+      token:
+        type: string
+        required: true

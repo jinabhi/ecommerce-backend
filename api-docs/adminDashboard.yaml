@@ -1,0 +1,106 @@
+paths:
+  /admin/dashboard:
+    get:
+      tags:
+        - Dashboard
+      summary: Dashboard api for admin
+      security:
+        - BearerAuth: []
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+  /dashboard:
+    get:
+      tags:
+        - Dashboard
+      summary: Dashboard api for seller
+      security:
+        - BearerAuth: []
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK   
+  /admin/dashboard/registered-user/graph:
+    get:
+      tags:
+        - Dashboard
+      summary: Dashboard registered users graph api for admin
+      security:
+        - BearerAuth: []
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: year
+          type: string
+          description: 'YYYY Format allow'
+        - in: query
+          name: fromDate
+          type: string
+          description: 'YYYY-MM-DD Format allow'
+          required: false
+        - in: query
+          name: toDate
+          type: string
+          description: 'YYYY-MM-DD Format allow'
+          required: false    
+      responses:
+        '200':
+          description: OK 
+  /dashboard/visitor-buyer/graph:
+    get:
+      tags:
+        - Dashboard
+      summary: Dashboard visitor users and buyer  graph api for admin ,seller
+      security:
+        - BearerAuth: []
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: year
+          type: string
+          description: 'YYYY Format allow'
+        - in: query
+          name: fromDate
+          type: string
+          description: 'YYYY-MM-DD Format allow'
+          required: false
+        - in: query
+          name: toDate
+          type: string
+          description: 'YYYY-MM-DD Format allow'
+          required: false    
+      responses:
+        '200':
+          description: OK 
+  /admin/dashboard/product-category:
+    get:
+      tags:
+        - Dashboard
+      summary: Dashboard category product chart api for admin
+      security:
+        - BearerAuth: []
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: year
+          type: string
+          description: 'YYYY Format allow'
+        - in: query
+          name: fromDate
+          type: string
+          description: 'YYYY-MM-DD Format allow'
+          required: false
+        - in: query
+          name: toDate
+          type: string
+          description: 'YYYY-MM-DD Format allow'
+          required: false    
+      responses:
+        '200':
+          description: OK

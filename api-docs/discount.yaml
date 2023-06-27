@@ -1,0 +1,307 @@
+paths:
+  /seller/discount:
+    post:
+        tags:
+          - Discount
+        summary: Add new Discount
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add Discount
+            required: true
+            schema:
+              "$ref": "#/definitions/addDiscount"
+        responses:
+          '200':
+            description: OK
+  /admin/discount:
+    get:
+        tags:
+          - Discount
+        summary: Get all Discount
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: childCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: sellerId
+            type: integer
+            required: false
+          - in: query
+            name: subCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: categoryId
+            type: integer
+            required: false
+          - in: query
+            name: search
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum:
+              - activeDiscount
+              - notDeletedDiscount
+            required: false
+          - in: query
+            name: fromDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: toDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name", 'code','discountPercent',  'totalProduct', 'startDate', 'endDate', "status", 'currentUsage', 'categoryName', 'subCategoryName','sellerName',  'childCategoryName', "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /seller/discount/{id}:
+    get:
+        tags:
+          - Discount
+        summary: Discount details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+    put:
+        tags:
+          - Discount
+        summary: Discount update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update Discount
+            required: true
+            schema:
+              "$ref": "#/definitions/addDiscount"
+        responses:
+          '200':
+            description: OK
+    delete:
+        tags:
+          - Discount
+        summary: Discount delete
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+
+  /top-offer:
+    get:
+        tags:
+          - Product
+          - Home screen
+        summary: Get all Top Offer
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK
+
+  /deals-of/the-day:
+    get:
+        tags:
+          - Home screen
+        summary: Get all Deals of the day
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: categoryId
+            type: integer
+            required: false
+          - in: query
+            name: childCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: subCategoryId
+            type: integer
+            required: false
+          - in: query
+            name: brandId  
+            type: array
+            items: 
+              type: integer 
+            required: false  
+          - in: query
+            name: fromPrice
+            description: 
+            type: integer
+            required: false
+          - in: query
+            name: toPrice
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: ['price', "name", 'code','discountPercent',  'totalProduct', 'startDate', 'endDate', "status", 'currentUsage', 'categoryName', 'subCategoryName','sellerName',  'childCategoryName', "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC"]
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+
+  /seller/discount/status/{id}:
+    put:
+        tags:
+          - Product
+        summary: Discount status update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/discountStatusUpdate"
+        responses:
+          '200':
+            description: OK
+  /seller/discount/product/status/{id}/{productId}:
+    put:
+        tags:
+          - Discount
+        summary: Product Discount status update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            description: Discount id
+            required: true
+          - in: path
+            name: productId
+            type: integer
+            description: Product id
+            required: true
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/discountStatusUpdate"
+        responses:
+          '200':
+            description: OK
+definitions:
+  addDiscount:
+    type: object
+    properties:
+      discountPercent:
+        type: integer
+        required: true
+      categoryId:
+        type: integer
+        required: true
+      subCategoryId:
+        type: integer
+        required: true
+      childCategoryId:
+        type: integer
+        required: true
+      userId:
+        type: integer
+        required: true
+     
+      startDate:
+        type: string
+        required: true
+      endDate:
+        type: string
+        required: true
+      productIds:
+          type: array
+          items: 
+           type: integer 
+          required: true
+
+  discountStatusUpdate:
+    type: object
+    properties:
+      status:
+        type: string
+        enum:
+          - "active"
+          - "inactive"
+        required: true
+

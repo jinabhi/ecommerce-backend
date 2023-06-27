@@ -1,0 +1,51 @@
+paths:
+  /general-setting:           
+    put:
+        tags:
+          - General setting
+        summary: General setting update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Update General setting
+            required: true
+            schema:
+              "$ref": "#/definitions/updateGeneralSetting"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - General setting
+        summary: General setting details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: OK
+
+definitions:
+  updateGeneralSetting:
+    type: object
+    properties:
+      commission:
+         type: integer
+         required: true
+      tax:
+         type: integer
+         required: true
+      credit_point:
+         type: integer
+         required: true
+      minimum_quantity_product:
+         type: integer
+         required: true
+      promotion_video:
+         type: string
+         default: '1'
+         required: true

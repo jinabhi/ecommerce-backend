@@ -1,0 +1,217 @@
+paths:
+  /admin/category:
+    post:
+        tags:
+          - Category
+        summary: Add new category
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Add category
+            required: true
+            schema:
+              "$ref": "#/definitions/addCategory"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Category
+        summary: Get all category for Admin and Seller
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum:
+              - activeCategory
+              - notDeletedCategory
+            required: false
+          - in: query
+            name: fromDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: toDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name", "status", 'totalProduct', 'totalBrand', 'categoryImage', "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/category/{id}:
+    get:
+        tags:
+          - Category
+        summary: Category details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+    put:
+        tags:
+          - Category
+        summary: Category update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Update category
+            required: true
+            schema:
+              "$ref": "#/definitions/addCategory"
+        responses:
+          '200':
+            description: OK
+    delete:
+        tags:
+          - Category
+        summary: Category delete
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+  /admin/category/status/{id}:
+    put:
+        tags:
+          - Category
+        summary: Category status update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: body
+            required: true
+            schema:
+              "$ref": "#/definitions/categoryStatusUpdate"
+        responses:
+          '200':
+            description: OK
+  /category:
+    get:
+        tags:
+          - Category
+        summary: Get all category
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: name
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum:
+              - activeCategory
+              - notDeletedCategory
+            required: false
+          - in: query
+            name: fromDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: toDate
+            type: string
+            description: 'YYYY-MM-DD Format allow'
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name", "status", 'totalProduct', 'totalBrand', 'categoryImage', "createdAt", "updatedAt"]
+            type: string
+            required: false
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  
+definitions:
+  addCategory:
+    type: object
+    properties:
+      name:
+        type: string
+        required: true
+      categoryImage:
+        type: string
+        required: true
+  categoryStatusUpdate:
+    type: object
+    properties:
+      status:
+        type: string
+        enum:
+          - "active"
+          - "inactive"
+        required: true
+

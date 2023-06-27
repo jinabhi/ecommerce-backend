@@ -1,0 +1,18 @@
+paths:
+  /store:
+    get:
+        tags:
+          - My Store
+        summary: My Store Listing
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name:  name
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK

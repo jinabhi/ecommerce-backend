@@ -1,0 +1,133 @@
+paths:
+  /admin/custom-notification:
+    post:
+        tags:
+          - Custom Notifications
+        summary: Add new Custom Notification
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: Body Data
+            required: true
+            schema:
+              "$ref": "#/definitions/addCustomNotification"
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Custom Notifications
+        summary: Get all Custom Notifications
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: query
+            name: limit
+            type: integer
+            required: false
+          - in: query
+            name: offset
+            type: integer
+            required: false
+          - in: query
+            name: sortBy
+            enum: ["name", "status", "title", 'userType',  "createdAt", "description"]
+            type: string
+            required: false
+          - in: query
+            name: scope
+            type: string
+            enum: [notDeletedCustomNotification,activeCustomNotification,]
+          - in: query
+            name: sortType
+            enum: ["ASC", "DESC" ]
+            type: string
+            required: false
+          - in: query
+            name: search
+            type: string
+            required: false
+          - in: query
+            name: userType
+            enum: ['all', 'seller', 'customer']
+            type: string
+            required: false
+        responses:
+          '200':
+            description: OK
+  /admin/custom-notification/{id}:          
+    put:
+        tags:
+          - Custom Notifications
+        summary: Custom Notification update
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Body Data
+            required: true
+            schema:
+              "$ref": "#/definitions/addCustomNotification"
+        responses:
+          '200':
+            description: OK
+    delete:
+        tags:
+          - Custom Notifications
+        summary: Delete Custom Notification
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+    get:
+        tags:
+          - Custom Notifications
+        summary: Get Custom Notification Details
+        security:
+          - BearerAuth: []
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: OK
+
+
+
+definitions:
+  addCustomNotification:
+    type: object
+    properties:
+      userType:
+         type: string
+         enum: ['seller', 'customer']
+         required: true
+      title:
+         type: string
+         required: true
+      description:
+         type: string
+         required: true
